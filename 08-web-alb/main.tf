@@ -1,18 +1,18 @@
 resource "aws_lb" "web_alb" {
-    name = "${var.project_name}-${var.environment}-web-alb"
-    internal = false
-    load_balancer_type = "application"
-    security_groups = [data.aws_ssm_parameter.web_alb_sg_id.value]
-    subnets = split(",",data.aws_ssm_parameter.public_subnet_ids.value)
+  name               = "${var.project_name}-${var.environment}-web-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [data.aws_ssm_parameter.web_alb_sg_id.value]
+  subnets            = split(",", data.aws_ssm_parameter.public_subnet_ids.value)
 
-    enable_deletion_protection = false
+  enable_deletion_protection = false
 
-    tags = merge (
-        var.common_tags,
-        {
-            Name = "${var.project_name}-${var.environment}-web-alb"
-        }
-    )
+  tags = merge(
+    var.common_tags,
+    {
+        Name = "${var.project_name}-${var.environment}-web-alb"
+    }
+  )
 }
 
 resource "aws_lb_listener" "http" {
@@ -25,7 +25,7 @@ resource "aws_lb_listener" "http" {
     
     fixed_response {
       content_type = "text/html"
-      message_body = "<h1>This is fixed response from WEB ALB</h1>"
+      message_body = "<h1>This is fixed response from Web ALB</h1>"
       status_code  = "200"
     }
   }
@@ -36,14 +36,14 @@ resource "aws_lb_listener" "https" {
   port              = "443"
 
   protocol          = "HTTPS"
-  certificate_arn = data.aws_ssm_parameter.acm_certificate_arn.value
-  ssl_policy = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = data.aws_ssm_parameter.acm_certificate_arn.value
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
   default_action {
-    type  = "fixed-response"
+    type = "fixed-response"
     
     fixed_response {
       content_type = "text/html"
-      message_body = "<h1>This is fixed response from WEB ALB HTTPS</h1>"
+      message_body = "<h1>This is fixed response from Web ALB HTTPS</h1>"
       status_code  = "200"
     }
   }
@@ -59,7 +59,7 @@ module "records" {
     {
       name    = "web-${var.environment}"
       type    = "A"
-      allow_overwrite =  true
+      allow_overwrite = true
       alias   = {
         name    = aws_lb.web_alb.dns_name
         zone_id = aws_lb.web_alb.zone_id

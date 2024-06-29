@@ -2,10 +2,10 @@ resource "aws_acm_certificate" "expense" {
   domain_name       = "*.neelareddy.store"
   validation_method = "DNS"
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.project_name}-${var.environment}" 
+        Name = "${var.project_name}-${var.environment}"
     }
   )
 }

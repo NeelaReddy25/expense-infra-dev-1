@@ -1,20 +1,20 @@
 variable "project_name" {
-    default = "expense"
+  default = "expense"
 }
 
 variable "environment" {
-    default = "dev"
+  default = "dev"
 }
 
 variable "common_tags" {
-    default = {
-        Project = "expense"
-        Environment = "dev"
-        Terraform = "true"
-        Component = "wev-alb"
-    }
+  default = {
+    Project = "expense"
+    Environment = "dev"
+    Terraform = "true"
+    Component = "web-alb"
+  }
 }
 
 variable "zone_name" {
-    default = "neelareddy.store"
+  default = "neelareddy.store"
 }
